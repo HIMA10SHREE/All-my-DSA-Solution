@@ -1,0 +1,98 @@
+import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void sort_arr(ArrayList<Integer> arr){
+        if(arr.size()==1){
+            return ;
+        }
+        
+        int y=arr.get(arr.size()-1);
+        arr.remove(arr.size()-1);
+        sort_arr(arr);
+        for(int i=0;i<arr.size();i++){
+            if(arr.get(i)>y){
+               int temp=arr.get(i);
+                arr.add(i,y);
+                y=temp;
+            }
+   }
+      arr.add(y);	
+      return;  
+    }
+    
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        ArrayList<Integer> arr=new ArrayList<>();
+        int N=sc.nextInt();
+        for(int i=0;i<N;i++){
+            int x=sc.nextInt();
+            arr.add(x);
+        }
+        
+        sort_arr(arr);
+        
+        for(int i=0;i<arr.size();i++){
+            System.out.print(arr.get(i));
+        }
+    }
+}
+
+
+
+SORT AN ARRAY USING COMPLETE RECURSION
+============================================
+
+
+
+
+
+import java.util.*;
+import java.io.*;
+
+public class Main{
+    
+    public static void insert(ArrayList<Integer> arr, int x){
+        if(arr.size()==0 || arr.get(arr.size()-1)<=x){
+            arr.add(x);
+            return;
+        }
+        
+        int val=arr.get(arr.size()-1);
+        arr.remove(arr.size()-1);
+        insert(arr,x);
+        arr.add(val);
+        return;
+        
+        
+    }
+    
+    public static void sort_arr(ArrayList<Integer> arr){
+        
+         if(arr.size()==1){
+            return ;
+        }
+        
+        int y=arr.get(arr.size()-1);
+        arr.remove(arr.size()-1);
+        sort_arr(arr);
+        insert(arr, y);
+      return;  
+    }
+    
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        ArrayList<Integer> arr=new ArrayList<>();
+        int N=sc.nextInt();
+        for(int i=0;i<N;i++){
+            int x=sc.nextInt();
+            arr.add(x);
+        }
+        
+        sort_arr(arr);
+        
+        for(int i=0;i<arr.size();i++){
+            System.out.print(arr.get(i));
+        }
+    }
+}

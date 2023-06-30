@@ -1,0 +1,526 @@
+Array:
+
+Buy and sell stock 1
+===================================
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int min=(int)1e18;
+        int profit=0;
+
+        for(int i=0;i<prices.length;i++){
+            min=Math.min(prices[i],min);
+            profit=Math.max(profit, prices[i]-min);
+        }
+
+        return profit;
+    }
+}
+
+
+
+
+
+Buy and sell stock 2
+=====================================
+
+//an interesting approach is ...you iterate serially taking i and i+1 difference if arr[i+1]>arr[i] and and if arr[i+1] is < arr[i] we will skip and continue next iteration
+
+
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int profit=0;
+        for(int i=0;i<prices.length-1;i++){
+            if(prices[i]<prices[i+1]){
+                profit+=prices[i+1]-prices[i];
+            }
+        }
+
+        return profit;
+    }
+}
+
+
+
+
+
+
+
+Buy and sell stock 3
+======================================
+
+
+//taking 2 arrays:
+//tc-o(n)
+//sc-o(n)
+
+
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n=prices.length;
+        int[] leftarr=new int[n];
+        int[] rightarr= new int[n+1];
+
+        int min=prices[0];
+        int max=prices[n-1];
+        int ans=0;
+        for(int i=0;i<n;i++){
+            if(prices[i]<min){
+                min=prices[i];
+            }
+
+            ans=Math.max(ans,prices[i]-min);
+            leftarr[i]=ans;
+        }
+
+        ans=0;
+        for(int i=n-1;i>=0;i--){
+            if(prices[i]>max){
+                max=prices[i];
+            }
+            ans=Math.max(ans,max-prices[i]);
+            rightarr[i]=ans;
+            
+        }
+
+        int maxans=0;
+
+        for(int i=0;i<n;i++){
+            maxans=Math.max(maxans,leftarr[i]+rightarr[i+1]);
+        }
+
+        return maxans;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+DP---->
+
+DP ON STOCKS
+===================
+
+
+Buy and sell stock 1
+=============================
+
+
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int min=(int)1e18;
+        int profit=0;
+
+        for(int i=0;i<prices.length;i++){
+            min=Math.min(prices[i],min);
+            profit=Math.max(profit, prices[i]-min);
+        }
+
+        return profit;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Buy and sell stock 2
+==============================
+
+
+class Solution {
+
+    public int maxprofitdp(int[] prices,int i,int[][]dp,int buy){
+
+
+        if(i==prices.length){
+            return 0;
+        }
+
+        if(dp[i][buy]!=-1){
+            return dp[i][buy];
+        }
+
+        int profit=0;
+        if(buy==1){
+            profit=Math.max(-prices[i]+maxprofitdp(prices,i+1,dp,0),0+maxprofitdp(prices,i+1,dp,1));
+        }
+        else{
+            profit=Math.max(prices[i]+maxprofitdp(prices,i+1,dp,1),0+maxprofitdp(prices,i+1,dp,0));
+      
+        }
+
+        return dp[i][buy]=profit;
+    }
+
+
+    public int maxProfit(int[] prices) {
+    int n=prices.length;
+    int[][]dp=new int[n][2];
+    for(int[] row:dp){
+        Arrays.fill(row,-1);
+    }
+
+        return maxprofitdp(prices,0,dp,1);   
+    }
+}
+
+
+
+
+
+
+
+
+
+Buy and sell stock 3
+==============================
+
+class Solution {
+
+    public int createdp(int i,int[] prices,int[][][]dp,int buy,int cap){
+
+        if(i==prices.length){
+            return 0;
+        }
+
+        if(cap==0){
+            return 0;
+        }
+
+
+        if(dp[i][buy][cap]!=-1){
+            return dp[i][buy][cap];
+        }
+
+        int profit=0;
+        if(buy==1){
+            profit=Math.max(-prices[i]+createdp(i+1,prices,dp,0,cap),0+createdp(i+1,prices,dp,1,cap));
+        }
+        else{
+            profit=Math.max(prices[i]+createdp(i+1,prices,dp,1,cap-1),0+createdp(i+1,prices,dp,0,cap));
+        }
+
+        return dp[i][buy][cap]=profit;
+    }
+
+    public int maxProfit(int[] prices) {
+
+     int[][][] dp=new int[prices.length][2][3];   
+     for(int[][]arr:dp){
+         for(int[] row:arr){
+             Arrays.fill(row,-1);
+         }
+     }
+     return createdp(0,prices,dp,1,2);
+
+    }
+}
+
+
+
+
+
+
+
+
+
+Buy and sell stock 4
+============================
+
+class Solution {
+
+      public int createdp(int i,int[] prices,int[][][]dp,int buy,int cap){
+
+        if(i==prices.length){
+            return 0;
+        }
+
+        if(cap==0){
+            return 0;
+        }
+
+
+        if(dp[i][buy][cap]!=-1){
+            return dp[i][buy][cap];
+        }
+
+        int profit=0;
+        if(buy==1){
+            profit=Math.max(-prices[i]+createdp(i+1,prices,dp,0,cap),0+createdp(i+1,prices,dp,1,cap));
+        }
+        else{
+            profit=Math.max(prices[i]+createdp(i+1,prices,dp,1,cap-1),0+createdp(i+1,prices,dp,0,cap));
+        }
+
+        return dp[i][buy][cap]=profit;
+    }
+
+
+
+    public int maxProfit(int k, int[] prices) {
+        int[][][] dp=new int[prices.length][2][k+1];   
+        for(int[][]arr:dp){
+             for(int[] row:arr){
+                 Arrays.fill(row,-1);
+         }
+     }
+     return createdp(0,prices,dp,1,k);
+    }
+}
+
+
+
+
+
+
+
+
+
+Buy and sell stock with cooldown
+====================================
+
+
+class Solution {
+
+     public int maxprofitdp(int[] prices,int i,int[][]dp,int buy){
+
+
+        if(i>=prices.length){
+            return 0;
+        }
+
+        if(dp[i][buy]!=-1){
+            return dp[i][buy];
+        }
+
+        int profit=0;
+        if(buy==1){
+            profit=Math.max(-prices[i]+maxprofitdp(prices,i+1,dp,0),0+maxprofitdp(prices,i+1,dp,1));
+        }
+        else{
+            profit=Math.max(prices[i]+maxprofitdp(prices,i+2,dp,1),0+maxprofitdp(prices,i+1,dp,0));
+      
+        }
+
+        return dp[i][buy]=profit;
+    }
+
+
+    public int maxProfit(int[] prices) {
+        
+        int n=prices.length;
+        int[][]dp=new int[n][2];
+        for(int[] row:dp){
+            Arrays.fill(row,-1);
+             }
+
+            return maxprofitdp(prices,0,dp,1);  
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+Buy and sell stock with transaction fee
+===================================================
+
+class Solution {
+
+      public int maxprofitdp(int[] prices,int i,int[][]dp,int buy,int fees){
+
+
+        if(i==prices.length){
+            return 0;
+        }
+
+        if(dp[i][buy]!=-1){
+            return dp[i][buy];
+        }
+
+        int profit=0;
+        if(buy==1){
+            profit=Math.max(-prices[i]+maxprofitdp(prices,i+1,dp,0,fees),0+maxprofitdp(prices,i+1,dp,1,fees));
+        }
+        else{
+            profit=Math.max(prices[i]-fees+maxprofitdp(prices,i+1,dp,1,fees),0+maxprofitdp(prices,i+1,dp,0,fees));
+      
+        }
+
+        return dp[i][buy]=profit;
+    }
+
+
+
+    public int maxProfit(int[] prices, int fee) {
+       int n=prices.length;
+        int[][]dp=new int[n][2];
+        for(int[] row:dp){
+            Arrays.fill(row,-1);
+            }
+
+            return maxprofitdp(prices,0,dp,1,fee);     
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+DP ON GRIDS
+==========================
+
+TOTAL UNIQUE PATHS FROM TOPLEFT TO BOTTOM RIGHT
+
+class Solution {
+
+    public int func(int i,int j,int m,int n,int[][]dp){
+        if(i==m-1 && j==n-1){
+            return 1;
+        }
+        if(i>m-1 || j>n-1){
+            return 0;
+        }
+
+        if(dp[i][j]!=0){
+            return dp[i][j];
+        }
+
+        int bottom=func(i+1,j,m,n,dp);
+        int right=func(i,j+1,m,n,dp);
+
+        return dp[i][j]=bottom+right;
+
+
+    }
+
+    public int uniquePaths(int m, int n) {
+       
+        int [][]dp=new int[m][n];
+
+        return func(0,0,m,n,dp);
+    }
+}
+
+
+
+DP ON SUBSEQUENCES:
+
+SUBSET EQUAL TO TARGET
+==================================
+
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+class GFG
+{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while(t-- > 0)
+        {
+            int N = Integer.parseInt(read.readLine());
+            String input_line[] = read.readLine().trim().split("\\s+");
+            int arr[]= new int[N];
+            for(int i = 0; i < N; i++)
+                arr[i] = Integer.parseInt(input_line[i]);
+            int sum = Integer.parseInt(read.readLine());
+
+            Solution ob = new Solution();
+            if(ob.isSubsetSum(N, arr, sum))
+            System.out.println(1);
+            else
+            System.out.println(0);
+
+            
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution{
+
+   static Boolean findtarget(int N, int i,int[] arr, int sum,int[][]dp){
+       if(sum==0){
+           return true;
+       }
+       
+       if(i==N){
+           return false;
+       }
+       
+       if(dp[i][sum]!=-1){
+           return dp[i][sum]==1? true:false;
+       }
+       
+       boolean pick=false;
+       if(arr[i]<=sum)
+        {
+            pick=findtarget(N,i+1,arr,sum-arr[i],dp);
+        }
+       boolean non_pick=findtarget(N,i+1,arr,sum,dp);
+       
+        dp[i][sum]=( pick || non_pick )?1:0;
+        return pick||non_pick;
+   }
+    
+    static Boolean isSubsetSum(int N, int arr[], int sum){
+        // code here
+       
+        int[][] dp=new int[N+1][sum+1];
+        for(int[] row: dp){
+            Arrays.fill(row,-1);
+        }
+        
+        return findtarget(N,0,arr,sum,dp);
+        
+    }
+}
+
+
+
+
+

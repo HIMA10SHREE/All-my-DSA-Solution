@@ -1,0 +1,1525 @@
+Adjacency matrix
+=========================
+
+
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int N=sc.nextInt();
+        int M=sc.nextInt();
+        int mat[][]=new int[N][N];
+        for(int i=0;i<M;i++){
+            int u=sc.nextInt();
+            int v=sc.nextInt();
+            
+            mat[u-1][v-1]=1;
+            mat[v-1][u-1]=1;
+        }
+        
+        
+        for(int i=0;i<N;i++){
+            for(int j=0;j<N;j++){
+                System.out.print(mat[i][j]);
+            }
+            
+            System.out.println();
+        }
+    }
+}
+
+
+
+
+
+
+
+AdjacencyList :
+
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int N=sc.nextInt();
+        int M=sc.nextInt();
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<ArrayList<Integer>>();
+        for(int i=0;i<=N;i++){
+            adj.add(new ArrayList<Integer>());
+        }
+        for(int i=0;i<M;i++){
+            int u=sc.nextInt();
+            int v=sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+
+        }
+        
+        for(int i=1;i<adj.size();i++){
+             System.out.print(i+": ");
+            for(int j=0;j<adj.get(i).size();j++){
+                System.out.print(adj.get(i).get(j)+" ");
+            }
+            
+            System.out.println();
+        }
+        
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int N=sc.nextInt();
+        int M=sc.nextInt();
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<ArrayList<Integer>>();
+        for(int i=0;i<=N;i++){
+            adj.add(new ArrayList<Integer>());
+        }
+        
+        int degree[]=new int[N];
+        
+        for(int i=0;i<M;i++){
+            int u=sc.nextInt();
+            int v=sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+            degree[v]++;
+
+        }
+        
+        int count[]=new int[N];
+        for(int i=1;i<=N;i++){
+            if(degree[i]>1){
+                boolean snowf=true;
+                for(int j=1;j<=N;j++){
+                   if( adj.get(i).get(j)>=1){
+                       if(degree[j]!=1){
+                            snowf=false;
+                       }
+                   }
+                }
+            
+            
+            if(snowf){
+                count[degree[i]]++;
+                
+            }
+            }
+            
+            if(degree[i]==0){
+                count[0]++;
+            }
+        }
+
+
+
+        
+        int coun=0;
+        for(int i=0;i<=N;i++){
+            if(count[i]==1){
+                coun++;
+            }
+        }
+        
+        System.out.print(coun);
+        
+        }
+    }
+
+
+
+
+Number of islands
+=======================
+
+
+class Pair{
+   int first;
+   int next;
+   
+   public Pair(int first,int next){
+       this.first=first;
+       this.next=next;
+   }
+}
+
+
+
+class Solution {
+    // Function to find the number of islands.
+    
+    
+    public void bfs(char[][] grid,int row,int col,int[][]visited){
+        
+        Queue<Pair> q=new LinkedList<Pair>();
+        int n=grid.length;
+        int m=grid[0].length;
+        q.add(new Pair(row,col));
+        visited[row][col]=1;
+        while(!q.isEmpty()){
+            int r=q.peek().first;
+            int c=q.peek().next;
+            
+            q.remove();
+            
+            for(int delr=-1 ;delr<=1;delr++){
+                for(int delc=-1;delc<=1;delc++){
+                    int nrow=r+delr;
+                    int ncol=c+delc;
+                    
+                    if( nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]=='1' && visited[nrow][ncol]== 0){
+                         
+                    
+                    {
+                        q.add(new Pair(nrow,ncol));
+                        visited[nrow][ncol]=1;
+                        
+                    }
+                    } 
+                    
+                }
+            }
+        }
+        
+        return;
+    }
+    
+    public int numIslands(char[][] grid) {
+        // Code here
+        int row=grid.length;
+        int col=grid[0].length;
+        
+        int [][] visited=new int[row][col];
+      
+        int count=0;
+        
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++){
+                if(grid[i][j]=='1' && visited[i][j]==0){
+                    count++;
+                    bfs(grid,i,j,visited);
+                }
+            }
+        }
+        
+     return count;   
+    }
+}
+
+
+
+Rotten oranges
+=======================
+
+
+
+
+class Solution
+{
+    //Function to find minimum time required to rot all oranges. 
+    
+    class Pair{
+        
+        int first;
+        int second;
+        int time;
+        
+        public Pair(int first,int second,int time)
+        {
+            this.first=first;
+            this.second=second;
+            this.time=time;
+        }
+    }
+    
+    
+   
+   
+    
+    public int orangesRotting(int[][] grid)
+    {
+        // Code here
+        
+        int n=grid.length;
+        int m=grid[0].length;
+        int [][] visited=new int[n][m];
+       
+        Queue<Pair> q=new LinkedList<>();
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==2 ){
+                   q.add(new Pair(i,j,0));
+                   visited[i][j]=1;
+                }
+                else{
+                    visited[i][j]=0;
+                }
+                
+               
+            }
+        }
+         int maxtime=-1;
+        
+        while(!q.isEmpty()){
+            int x=q.peek().first;
+            int y=q.peek().second;
+            int t=q.peek().time;
+            maxtime=Math.max(t,maxtime);
+            
+            q.remove();
+            
+            int [] dx={-1,1,0,0};
+            int [] dy={0,0,-1,1};
+            for(int ni=0;ni<4;ni++){
+                int nrow=x+dx[ni];
+                int ncol=y+dy[ni];
+                
+                
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]==1 && visited[nrow][ncol]==0){
+                    
+                    
+                    q.add(new Pair(nrow,ncol,t+1));
+                    visited[nrow][ncol]=1;
+                    
+                    
+                    
+                }
+            }
+        }
+        
+       for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1 && visited[i][j]==0){
+                    return -1;
+                }
+            }
+        }   
+       
+        
+        
+        return maxtime;
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Detect cycle in an undirected graph
+========================================
+class Pair{
+    int node;
+    int parent;
+    
+    public Pair(int node,int parent){
+        this.node=node;
+        this.parent=parent;
+    }
+}
+
+class Solution {
+    // Function to detect cycle in an undirected graph.
+    
+    public boolean bfs(int[] visited,ArrayList<ArrayList<Integer>>adj,int i){
+        
+        Queue<Pair> q=new LinkedList<>();
+        
+        q.add(new Pair(i,-1));
+        visited[i]=1;
+        while(!q.isEmpty()){
+            int n=q.peek().node;
+            int p=q.peek().parent;
+            
+            q.remove();
+            
+            
+            for(int j=0;j<adj.get(n).size();j++){
+                if(visited[adj.get(n).get(j)]==0){
+                    q.add(new Pair(adj.get(n).get(j),n));
+                    visited[adj.get(n).get(j)]=1;
+                }
+                
+                else{
+                    if(p!=adj.get(n).get(j)){
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        
+        return false;
+    }
+    
+    
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        
+        
+        int [] visited=new int[V];
+        
+        
+        for(int i=0;i<V;i++){
+            if(visited[i]==0){
+                if(bfs(visited,adj,i) ==true){
+                    return true;
+                }
+            }
+        }
+        
+        
+        return false;
+        
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.*;
+public class Main{
+    
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int N=sc.nextInt();
+        int M=sc.nextInt();
+        // String place[] =new place[M];
+        HashMap<String,ArrayList<Pair>>map=new HashMap<String,ArrayList<Pair>>();
+        for(int i=0;i<M;i++){
+            String place=sc.nextLine();
+            String []word=place.split(" ");
+            map.put(word[0], new ArrayList<Pair>());
+            ArrayList<Pair> list=map.get(word[0]);
+            list.add(new Pair(word[1],word[2]));
+            System.out.println(map);
+        }
+        
+        String s_t_points=sc.nextLine();
+        
+        
+        // HashMap<String,String[]>map=new HashMap<String,String[]>();
+        // for(int i=0;i<M;i++){
+           
+        //     map.put()
+        // }
+    }
+}
+    
+class Pair{
+    String city;
+    String road;
+    public Pair(String city,String road){
+        this.city=city;
+        this.road=road;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+Distance of nearest cell having 1
+=========================================
+
+
+class Pair{
+    int first;
+    int next;
+    int count;
+    
+    public Pair(int first,int next,int count){
+        this.first=first;
+        this.next=next;
+        this.count=count;
+    }
+}
+
+class Solution
+{
+    //Function to find distance of nearest 1 in the grid for each cell.
+    public int[][] nearest(int[][] grid)
+    {
+        // Code here
+        int n=grid.length;
+        int m=grid[0].length;
+        
+        int[][] answer= new int[n][m];
+        int [][]visited=new int[n][m];
+        Queue<Pair> q=new LinkedList<Pair>();
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1){
+                    q.add(new Pair(i,j,0));
+                    visited[i][j]=1;
+                    answer[i][j]=0;
+            }
+            }
+        }
+        
+        
+        while(!q.isEmpty()){
+            int r=q.peek().first;
+            int c=q.peek().next;
+            int co=q.peek().count;
+            
+            q.remove();
+            
+            int []dx={-1,1,0,0};
+            int []dy={0,0,-1,1};
+            for(int i=0;i<4;i++){
+                int nrow=r+dx[i];
+                int ncol=c+dy[i];
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && visited[nrow][ncol]==0 ){
+                    if(grid[nrow][ncol]==1){
+                        answer[nrow][ncol]=0;
+                        q.add(new Pair(nrow,ncol,0));
+                        visited[nrow][ncol]=1;
+                    }
+                    
+                    else{
+                        answer[nrow][ncol]=co+1;
+                        q.add(new Pair(nrow,ncol,co+1));
+                        visited[nrow][ncol]=1;
+                    }
+                }
+                
+            }
+            
+        }
+        
+        
+        return answer;
+        
+    }
+}
+
+
+
+
+
+
+
+Replace 'o''s with 'x'
+===========================
+
+class Pair{
+    int row;
+    int col;
+    public Pair(int row,int col){
+        this.row=row;
+        this.col=col;
+    }
+}
+
+class Solution{
+    
+    
+    public static void bfs(char[][]a,int [][] visited,int i,int j,int n,int m){
+        Queue<Pair> q=new LinkedList<>();
+        
+        q.add(new Pair(i,j));
+        visited[i][j]=1;
+        
+        while(!q.isEmpty()){
+            int r=q.peek().row;
+            int c=q.peek().col;
+            
+            q.remove();
+            
+             int [] dx={1,-1,0,0};
+             int [] dy={0,0,1,-1};
+             for(int t=0;t<4;t++){
+                 
+                 int nrow=r+dx[t];
+                 int ncol=c+dy[t];
+                 
+                 if(nrow>=0 && nrow <n && ncol>=0 && ncol<m && visited[nrow][ncol]==0 && a[nrow][ncol]=='O'){
+                     visited[nrow][ncol]=1;
+                     q.add(new Pair(nrow,ncol));
+                 }
+             }
+        }
+        return;
+    }
+    
+    static char[][] fill(int n, int m, char a[][])
+    {
+        // code here
+        
+        int[][]visited=new int[n][m];
+        // char[][] ans=new char[n][m];
+        
+        
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if((i==0 || i==n-1|| j==0 || j==m-1 ) && a[i][j]=='O' && visited[i][j]==0){
+                    bfs(a,visited,i,j,n,m);
+                }
+               
+                
+                
+            }
+        }
+        
+        
+        
+        
+        
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if( a[i][j]=='O' && visited[i][j]==0){
+                    a[i][j]='X';
+                }
+                
+                
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+        return a;
+
+
+
+
+
+
+
+Bipartite Graph
+=====================
+
+class Solution
+{
+    public boolean bfs(int s,ArrayList<ArrayList<Integer>>adj,int[]color){
+        Queue<Integer>q=new LinkedList<>();
+        
+        q.add(s);
+        color[s]=1;
+        
+        while(!q.isEmpty()){
+            
+            int x=q.remove();
+            for(int i=0;i<adj.get(x).size();i++){
+                if(color[adj.get(x).get(i)]==-1){
+        
+                   color[adj.get(x).get(i)]=1-color[x];
+                   q.add(adj.get(x).get(i));
+                }
+                
+                else{
+                    if(color[x]==color[adj.get(x).get(i)])
+                          return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    public boolean isBipartite(int V, ArrayList<ArrayList<Integer>>adj)
+    {
+        // Code here
+        
+        int []color=new int[V];
+        
+        Arrays.fill(color,-1);
+        
+        for(int i=0;i<V;i++){
+            if(color[i]==-1){
+                if(bfs(i,adj,color)==false){
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+        
+    }
+}
+
+
+Detect cycle in directed graph
+===================================
+
+
+class Solution {
+    // Function to detect cycle in a directed graph.
+    
+    public boolean dfs(int i,int[]visited,int[]vispath,ArrayList<ArrayList<Integer>> adj){
+        
+    
+        // if(visited[i]==1 && vispath[i]==1){
+        //     return true;
+        // }
+        
+        
+        visited[i]=1;
+        vispath[i]=1;
+        
+        
+        for(int j=0;j<adj.get(i).size();j++){
+            if(visited[adj.get(i).get(j)]==0){
+                if(dfs(adj.get(i).get(j),visited,vispath,adj)==true){
+                    return true;
+                }
+                
+            }
+            else{
+                    if(vispath[adj.get(i).get(j)]==1){
+                        return true;
+                    }
+                }
+            }
+                
+            
+        
+        
+        vispath[i]=0;
+        
+        return false;
+    }
+    
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        // code here
+        
+        int[] visited=new int[V];
+        int[] vispath=new int[V];
+        
+        for(int i=0;i<V;i++){
+            if(visited[i]==0){
+                if(dfs(i,visited,vispath,adj)==true){
+                    return true;
+                }
+            }
+        }
+        
+        
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
+
+bfs
+==============
+
+class Solution
+{
+    //Function to return list containing vertices in Topological order. 
+    
+   
+    
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
+    {
+        // add your code here
+        int [] topo=new int[V];
+        Queue<Integer> q=new LinkedList<>();
+        Stack<Integer> st=new Stack<>();
+        int []indegree=new int[V];
+        for(int i=0;i<V;i++){
+             for(int j=0;j<adj.get(i).size();j++){
+                  indegree[adj.get(i).get(j)]++;
+                
+            }
+        }
+        
+        
+        for(int i=0;i<V;i++){
+            if(indegree[i]==0){
+                q.add(i);
+            }
+        }
+        
+        int i=0;
+        while(!q.isEmpty()){
+            int x=q.remove();
+            topo[i++]=x;
+            
+            for(int t: adj.get(x)){
+                indegree[t]--;
+                if(indegree[t]==0){
+                    q.add(t);
+                }
+            }
+        }
+        
+        
+         
+        return topo;
+    }
+}
+
+
+
+
+
+
+Alien Dictionary
+========================
+
+
+class Solution
+{
+    
+    public void dfs(ArrayList<ArrayList<Integer>>dictlist,Stack<Integer> st,int []visited,int i){
+        
+        if(visited[i]==1){
+            return;
+        }
+        
+        
+        visited[i]=1;
+        for(int j=0;j<dictlist.get(i).size();j++){
+            if(visited[dictlist.get(i).get(j)]==0){
+                 dfs(dictlist,st,visited,dictlist.get(i).get(j));
+            }
+        }
+        
+        st.push(i);
+        return;
+        
+    }
+    
+    public String findOrder(String [] dict, int N, int K)
+    {
+        // Write your code here
+        
+        ArrayList<ArrayList<Integer>>dictlist=new ArrayList<ArrayList<Integer>>();
+        for(int i=0;i<K;i++){
+            dictlist.add(new ArrayList<Integer>());
+        }
+        
+        for(int i=0;i<N-1;i++){
+            String first=dict[i];
+            String sec=dict[i+1];
+            
+            int len=Math.min(first.length(),sec.length());
+            for(int j=0;j<len;j++){
+                if(first.charAt(j)!=sec.charAt(j)){
+                    dictlist.get(first.charAt(j)-'a').add(sec.charAt(j)-'a');
+                    break;
+                }
+            }
+            
+        }
+        
+        Stack<Integer> st=new Stack<>();
+        int[] visited=new int[K];
+        for(int i=0;i<K;i++){
+            if(visited[i]==0){
+                dfs(dictlist,st,visited,i);
+            }
+        }
+        
+        ArrayList<Integer> ll=new ArrayList<>();
+        while(!st.isEmpty()){
+            ll.add(st.pop());
+        }
+        
+        
+        
+        String ans="";
+        for(int t: ll){
+            ans=ans+(char)(t+(int)'a');
+        }
+        
+
+    return ans;
+    }
+
+}
+
+
+
+
+
+Step by Knight
+========================
+
+class Solution
+{
+    //Function to find out minimum steps Knight needs to reach target position.
+    public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N)
+    {
+        // Code here
+        
+        int[][] visited=new int[N+1][N+1];
+        Queue<Pair> q=new LinkedList<Pair>();
+        int mindis=0;
+        q.add(new Pair(KnightPos[0],KnightPos[1],0));
+        visited[KnightPos[0]][KnightPos[1]]=1;
+        
+        int tx=TargetPos[0];
+        int ty=TargetPos[1];
+        
+        int[] dx={-1,-2,-2,-1,1,2,2,1};
+        int [] dy={-2,-1,1,2,-2,-1,1,2};
+        
+        while(!q.isEmpty()){
+            int row=q.peek().r;
+            int col=q.peek().c;
+            int dis=q.peek().count;
+            q.remove();
+            
+            for(int i=0;i<8;i++){
+                int nrow=row+dx[i];
+                int ncol=col+dy[i];
+                
+                if(nrow>=0 && nrow<=N && ncol>=0 && ncol<=N && visited[nrow][ncol]==0){
+                    visited[nrow][ncol]=1;
+                    if(nrow==tx && ncol==ty){
+                        mindis=dis+1;
+                    }
+                    else{
+                    q.add(new Pair(nrow,ncol,dis+1));
+                }
+                }
+            }
+        }
+        return mindis;
+    }
+}
+
+
+class Pair{
+    int r;
+    int c;
+    int count;
+    
+    public Pair(int r,int c,int count){
+        this.r=r;
+        this.c=c;
+        this.count=count;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Snake Ladder
+====================
+
+class Solution{
+    static int minThrow(int N, int arr[]){
+        // code here
+        
+        HashMap<Integer,Integer>map=new HashMap<Integer,Integer>();
+        for(int i=0;i<2*N;i+=2){
+            map.put(arr[i],arr[i+1]);
+        }
+        
+        
+        Queue<Pair> q=new LinkedList<>();
+        q.add(new Pair(1,0));
+        
+        while(!q.isEmpty()){
+            int p=q.peek().pos;
+            int m=q.peek().minmove;
+            q.remove();
+           
+              if(p==30){
+                    return m;
+                  }
+            for(int i=1;i<=6;i++){
+                int np=p+i;
+        
+                 if(np<=30){ 
+                if(map.containsKey(np)){
+                      q.add(new Pair(map.get(np),m+1));
+                }
+                else{
+                     q.add(new Pair(np,m+1));
+                }
+            }
+        }
+        
+        }
+
+        return -1;
+        
+    }
+}
+
+
+class Pair{
+    int pos;
+    int minmove;
+    
+    public Pair(int pos,int minmove){
+        this.pos=pos;
+        this.minmove=minmove;
+    }
+}
+
+
+
+
+
+
+
+
+
+import java.util.*;
+import java.io.*;
+
+public class Main{
+    
+    public static int dfs(ArrayList<ArrayList<Integer>> list,int[] cost,int [] visited,int i)
+{
+    visited[i]=1;
+    
+    for(int j=0;j<list.get(i).size();j++){
+        if(visited[list.get(i).get(j)]==0){
+            
+           
+            
+                 cost[i] =Math.max(cost[i],cost[i]+dfs(list,cost,visited,list.get(i).get(j)));
+             
+            
+            
+        }
+    }
+    
+    
+       return cost[i];
+    
+    
+    
+    
+}    
+ public static void main(String[] args){
+        FastReader sc=new FastReader();
+        int N=sc.nextInt();
+        ArrayList<ArrayList<Integer>> list=new ArrayList<ArrayList<Integer>>();
+        for(int i=0;i<=N;i++)
+        {
+            list.add(new ArrayList<Integer>());
+        }
+        
+        int [] cost=new int[N+1];
+        int [] visited=new int[N+1];
+        for(int i=0;i<N-1;i++){
+            int x=sc.nextInt();
+            list.get(x).add(i+2);
+            list.get(i+2).add(x);
+        }
+        
+        for(int i=1;i<=N;i++){
+            cost[i]=sc.nextInt();
+        }
+        
+        System.out.print(dfs(list,cost,visited,1,));
+        
+        
+    }
+}
+
+
+
+
+
+class FastReader {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastReader()
+        {
+            br = new BufferedReader(
+                    new InputStreamReader(System.in));
+        }
+
+        String next()
+        {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() { return Integer.parseInt(next()); }
+
+        long nextLong() { return Long.parseLong(next()); }
+
+        double nextDouble()
+        {
+            return Double.parseDouble(next());
+        }
+
+        String nextLine()
+        {
+            String str = "";
+            try {
+                if(st.hasMoreTokens()){
+                    str = st.nextToken("\n");
+                }
+                else{
+                    str = br.readLine();
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+    }        
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.*;
+import java.io.*;
+
+public class Main{
+    
+    
+   
+    public static int dfs(int i, ArrayList<ArrayList<Integer>>list,int[]visited,int[] arred,int C,int consecutive){
+        
+        // if(visited[i]==0){
+        //     return ;
+        // }
+        
+        
+        visited[i]=1;
+        consecutive+=arred[i];
+        if(consecutive>C){
+            return 0;
+        }
+        
+        
+        if(arred[i]==0){
+            consecutive=0;
+        }
+        int count=0;
+        boolean leaf=true;
+        for(int j=0;j<list.get(i).size();j++){
+            leaf=false;
+            if(visited[list.get(i).get(j)]==0){
+                
+                count+=dfs(list.get(i).get(j),list,visited,arred,C,consecutive);
+                
+            }
+            
+            
+        }
+    
+        if(leaf==true){
+            return 1;
+        }
+       
+            return count;
+        
+    }
+
+
+  public static void main(String[] args){
+        FastReader sc=new FastReader();
+        int N=sc.nextInt();
+        int C=sc.nextInt();
+        int[] arred=new int[N+1];
+        for(int i=1;i<=N;i++){
+            arred[i]=sc.nextInt();
+        }
+        
+        ArrayList<ArrayList<Integer>> list=new ArrayList<ArrayList<Integer>>();
+        for(int i=0;i<=N;i++){
+            list.add(new ArrayList<Integer>());
+        }
+        
+        int[] visited=new int[N+1];
+        
+        
+        System.out.print(dfs(1,list,visited,arred,C,0));
+    }
+}
+
+class FastReader {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastReader()
+        {
+            br = new BufferedReader(
+                    new InputStreamReader(System.in));
+        }
+
+        String next()
+        {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() { return Integer.parseInt(next()); }
+
+        long nextLong() { return Long.parseLong(next()); }
+
+        double nextDouble()
+        {
+            return Double.parseDouble(next());
+        }
+
+        String nextLine()
+        {
+            String str = "";
+            try {
+                if(st.hasMoreTokens()){
+                    str = st.nextToken("\n");
+                }
+                else{
+                    str = br.readLine();
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+    }       
+
+
+
+
+
+
+
+
+
+
+(v.v.v.v.v.v.Imp)       Disjoint Sets
+                  ==========================
+
+import java.util.*;
+import java.io.*;
+
+class DisjointSet{
+    ArrayList<Integer>rank=new ArrayList<>();
+    ArrayList<Integer>parent=new ArrayList<>();
+
+    public DisjointSet(int N){
+        for(int i=0;i<=N;i++){
+            this.rank.add(0);
+            this.parent.add(i);
+        }
+    }
+    
+    public  int findPar(int node){
+        if(node==parent.get(node)){
+            return node;
+        }
+        
+        int ulp=findPar(parent.get(node));
+        parent.set(node,ulp);
+        return parent.get(node);
+        
+    }
+
+ public void unionByRank(int u,int v){
+        int upu=findPar(u);
+        int upv=findPar(v);
+        
+        if(upu==upv){
+            return;
+        }
+        
+        if(rank.get(upu)==rank.get(upv)){
+            parent.set(upv,upu);
+            rank.set(upu,rank.get(upu)+1);
+        }
+        
+        else{
+            if(rank.get(upu)>rank.get(upv)){
+                parent.set(upv,upu);
+            }
+            else{
+                parent.set(upu,upv);
+            }
+        }
+    }
+    
+}  
+
+
+
+
+   public class Main{
+        public static void main(String[] args){
+            Scanner sc=new Scanner(System.in);
+            // int N=sc.nextInt();
+            DisjointSet st=new DisjointSet(7);
+            st.unionByRank(1,2);
+            st.unionByRank(2,3);
+            st.unionByRank(4,5);
+            st.unionByRank(6,7);
+            st.unionByRank(5,6);
+            // st.unionByRank(3,7);
+            
+            if(st.findPar(3)==st.findPar(7)){
+                System.out.println("Same");
+            }
+            else{
+                System.out.println("Not same");
+            }
+            
+            st.unionByRank(3,7);
+             if(st.findPar(3)==st.findPar(7)){
+                System.out.println("Same");
+            }
+            else{
+                System.out.println("Not same");
+            }
+        }
+    }
+
+
+
+
+
+
+
+KRUSKAL'S ALGORITHM
+==========================
+
+
+class DisjointSet{
+    ArrayList<Integer> rank=new ArrayList<Integer>();
+    ArrayList<Integer> parent=new ArrayList<Integer>();
+    
+    public DisjointSet(int V){
+        for(int i=0;i<V;i++){
+            this.rank.add(0);
+            this.parent.add(i);
+        }
+        
+    }
+    
+    
+    public int findUP(int node){
+        if(node==parent.get(node)){
+            return node;
+        }
+        
+        
+        int ulp=findUP(parent.get(node));
+        parent.set(node,ulp);
+        return parent.get(node);
+    }
+    
+    public void unionByRank(int u, int v){
+        
+        int ulpu=findUP(u);
+        int ulpv=findUP(v);
+        
+        if(ulpu==ulpv){
+            return;
+        }
+        
+        if(rank.get(ulpu)==rank.get(ulpv)){
+            parent.set(ulpv,ulpu);
+            rank.set(ulpu, rank.get(ulpu)+1);
+        }
+        
+        else{
+            if(rank.get(ulpu)>rank.get(ulpv)){
+                parent.set(ulpu,ulpv);
+            }
+            
+            else{
+                parent.set(ulpv,ulpu);
+            }
+        }
+        
+    }
+    
+    
+    
+}
+
+
+
+
+
+class Solution{
+	static int spanningTree(int V, int E, int edges[][]){
+	    // Code Here. 
+	    
+	    
+	    ArrayList<ArrayList<Pair>>adj=new ArrayList<ArrayList<Pair>>();
+	    PriorityQueue<Tri>pq=new PriorityQueue<>((x,y)->x.wt-y.wt);
+	    for(int i=0;i<V;i++){
+	        adj.add(new ArrayList<Pair>());
+	    }
+	    
+	    for(int i=0;i< E;i++){
+	        int ut=edges[i][0];
+	        int vt=edges[i][1];
+	        int wtt=edges[i][2];
+	        
+	        adj.get(ut).add(new Pair(vt,wtt));
+	        adj.get(vt).add(new Pair(ut,wtt));
+	    }
+	    
+	    for(int i=0;i<E;i++){
+	        pq.add(new Tri(edges[i][0],edges[i][1],edges[i][2]));
+	    }
+	    
+	    DisjointSet st=new DisjointSet(V);
+	    int sum=0;
+	    while(!pq.isEmpty()){
+	        int u=pq.peek().u;
+	        int v=pq.peek().v;
+	        int wt=pq.peek().wt;
+	        pq.remove();
+	        
+	        if(st.findUP(u)!=st.findUP(v)){
+	            sum=sum+wt;
+	            st.unionByRank(u,v);
+	        }
+	    }
+	    
+	    return sum;
+	    
+	}
+}
+
+
+
+class Pair{
+    int v;
+    int wt;
+    
+    public Pair(int v,int wt){
+        this.v=v;
+        this.wt=wt;
+    }
+}
+
+
+class Tri{
+    int u;
+    int v;
+    int wt;
+    
+    public Tri(int u,int v,int wt){
+        this.u=u;
+        this.v=v;
+        this.wt=wt;
+    }
+}
+
+
+
+

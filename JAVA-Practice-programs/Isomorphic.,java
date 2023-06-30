@@ -1,0 +1,31 @@
+import java.util.Hashset;
+class Isomophic {
+    public boolean isIsomorphic(String s, String t) {
+        Hashset <String>se=new Hashset<>();
+        Hashset <String>te=new Hashset<>();
+        for(i=0;i<s.length();i++){
+            if(se.contains(s.getcharAt(i))){
+                return;
+            }
+            else{
+                se.add(s.getcharAt(i));
+            }
+        }
+        for(i=0;i<t.length();i++){
+            if(te.contains(t.getcharAt(i))){
+                return;
+            }
+            else{
+                te.add(t.getcharAt(i));
+            }
+        }
+        
+        if(se.length()==te.length()){
+            return true;
+        }
+        return false;
+        
+        }
+        
+    
+}

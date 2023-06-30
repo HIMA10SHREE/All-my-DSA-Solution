@@ -1,0 +1,40 @@
+0/1 KnapSack DP
+=======================
+
+
+class Solution 
+{ 
+    //Function to return max value that can be put in knapsack of capacity W.
+    
+    
+    static int funcknapSack(int i,int W, int[] wt,int[] val,int[][] dp){
+        
+       if(i>=wt.length){
+           return 0;
+       }
+       
+      if(dp[i][W]!=0){
+          return dp[i][W];
+      }
+        
+        int pick=0;   
+        if(wt[i]<=W){
+            pick=val[i]+funcknapSack(i+1,W-wt[i],wt,val,dp);
+        }
+        
+        int notpick=funcknapSack(i+1,W,wt,val,dp);
+        
+        return dp[i][W]=Math.max(pick,notpick);
+    }
+    
+    
+    static int knapSack(int W, int wt[], int val[], int n) 
+    { 
+         // your code here 
+         
+         int[][] dp=new int[n][W+1];
+         
+         return funcknapSack(0,W,wt,val,dp);
+    } 
+}
+

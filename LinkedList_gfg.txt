@@ -1,0 +1,915 @@
+
+Detect loop in cycle
+====================================
+
+o(n)
+o(1)
+
+
+class Solution {
+    //Function to check if the linked list has a loop.
+    public static boolean detectLoop(Node head){
+        // Add code here
+        Node hare=head;
+        Node turtle=head;
+        while(hare.next!=null && hare.next.next!=null){
+            hare=hare.next.next;
+            turtle=turtle.next;
+            if(turtle==hare){
+                return true;
+            }
+        }
+        
+        return false;
+        
+        
+    }
+}
+
+
+Nth node from the end of linkedlist
+===========================================
+
+O(n)
+O(1)
+
+class GfG
+{
+    //Function to find the data of nth node from the end of a linked list.
+    int getNthFromLast(Node head, int n)
+    {
+    	// Your code here
+    	int count=0;
+    	Node cur=head;
+    	while(cur!=null){
+    	    count+=1;
+    	    cur=cur.next;
+    	}
+    	
+    	
+    	if(count<n){
+    	    return -1;
+    	}
+    	int k=count-n+1;
+    	
+    	Node seccur=head;
+    	int counter=1;
+    	
+    	while(counter!=k){
+    	   // if(counter>k){
+    	     //   return -1;
+    	    //}
+    	    counter+=1;
+    	    seccur=seccur.next;
+    	}
+    	
+    	return seccur.data;
+    }
+}
+
+Finding middle element in linked list
+===========================================
+
+TC--O(n)
+SC-O(1)
+
+
+class Solution
+{
+    int getMiddle(Node head)
+    {
+         // Your code here.
+          Node cur=head;
+        int count=0;
+        if(cur.next==null)
+        {
+            return cur.data;
+        }
+        while(cur!=null){
+            count+=1;
+            cur=cur.next;
+        }
+        
+        int mid=(count/2)+1;
+        
+        Node seccur=head;
+        int seccount=1;
+        while(seccount!=mid){
+            seccount+=1;
+            seccur=seccur.next;
+        }
+        
+        return seccur.data;
+    }
+}
+
+
+
+Reverse a linked list
+==================================================
+TC-O(n)
+SC-O(1)
+
+class Solution
+{
+    //Function to reverse a linked list.
+    Node reverseList(Node head)
+    {
+        // code here
+        if(head.next==null){
+            return head;
+        }
+        
+        Node prev=null;
+        Node cur=head;
+        while(cur!=null){
+            Node next=cur.next;
+            cur.next=prev;
+            prev=cur;
+            cur=next;
+        }
+        
+        head=prev;
+        
+        return head;
+        
+    }
+}
+
+
+ Node cur=head;
+        int count=1;
+        while(cur!=null)
+        {
+            count+=1;
+            cur=cur.next;
+        }
+        
+        
+        int mid=0;
+        if(count%2==0){
+            mid =count/2;
+        }
+        else{
+             mid=(count/2)+1;
+        }
+        
+        
+        
+        
+        
+        int counter=0;
+        Node curr=head;
+        while(counter!=mid){
+            counter+=1;
+            curr=curr.next;
+        }
+        
+        if(counter==1){
+            if(curr.data!=head.data){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        
+        Node prev=null;
+        Node head2=null;
+        
+        while(curr!=null){
+            Node next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        head2=prev;
+        
+        
+    while(head2!=null){
+        if(head2.data==head.data){
+            head2=head2.next;
+            head=head.next;
+        }
+        else{
+            return false;
+        }
+        
+    }
+    
+    return true;
+
+
+
+
+
+
+
+
+
+
+
+Parenthesis checker
+=============================
+
+
+O(N)
+
+
+
+class Solution
+{
+    //Function to check if brackets are balanced or not.
+    static boolean ispar(String x)
+    {
+        // add your code here
+        Stack<Character>s=new Stack<Character>();
+        for(int i=0;i<x.length();i++){
+            char y=x.charAt(i);
+            if(y=='{' ||  y=='[' || y=='('){
+                s.push(y);
+            }
+            
+            else{
+                if(!s.isEmpty()){
+                  
+                  if(y==']' && s.peek()=='[' || y=='}' && s.peek()=='{' || y==')' && s.peek()=='('){
+                    s.pop();
+                }
+                
+                else{
+                    return false;
+                }
+                
+                
+                }
+                
+                else{
+                    return false;
+                }
+                }
+            }
+            
+        
+        
+        if(s.isEmpty()){
+        
+        return true;
+        }
+        else{
+            return false;
+        }
+        
+        
+    
+    }
+}
+
+
+Remove duplicates from linked list
+================================================
+
+O(N)
+
+
+class GfG
+{
+    //Function to remove duplicates from sorted linked list.
+    Node removeDuplicates(Node head)
+    {
+	// Your code here	
+	
+	  Node curr=head;
+	  Node prev=head;
+	  while(curr!=null){
+	      if(prev.data==curr.data){
+	          curr=curr.next;
+	      }
+	      else{
+	          prev.next=curr;
+	          prev=curr;
+	      }
+	  }
+	  
+	  prev.next=curr;
+	
+	return head;
+    }
+}
+
+
+
+
+Add two numbers in linked list
+==================================================
+
+O(N)
+
+O(1)
+
+
+class Solution{
+    //Function to add two numbers represented by linked list.
+    
+    static Node reverselist(Node head2){
+        
+        
+        if(head2==null|| head2.next==null){
+            return head2;
+        }
+     
+    
+        Node prev=null;
+        Node cur=head2;
+        while(cur!=null){
+            Node next=cur.next;
+            cur.next=prev;
+            prev=cur;
+            cur=next;
+        }
+       
+        
+        return prev;
+    }
+    
+    
+    static Node addTwoLists(Node first, Node second){
+        // code here
+        // return head of sum list
+        
+        Node firstrev=reverselist(first);
+        Node secondrev=reverselist(second);
+        
+        int sum=0;
+        int carry=0;
+        int res=0;
+        Node head=null,prev=null;
+        Node list1=firstrev;
+        Node list2=secondrev;
+        
+        while(list1!=null&& list2!=null){
+            sum=list1.data+list2.data+carry;
+            res=sum%10;
+            carry=sum/10;
+            Node newnode=new Node(res);
+            if(list1==firstrev){
+                head=newnode;
+                prev=newnode;
+            
+            }
+            
+            else{
+                prev.next=newnode;
+                prev=newnode;
+            }
+            
+            list1=list1.next;
+            list2=list2.next;
+            
+            
+        }
+        
+        
+        while(list1!=null){
+             sum=list1.data+carry;
+            res=sum%10;
+            carry=sum/10;
+            Node newnode=new Node(res);
+            if(list1==firstrev){
+                head=newnode;
+                prev=newnode;
+            
+            }
+            
+            else{
+                prev.next=newnode;
+                prev=newnode;
+            }
+            
+            list1=list1.next;
+        
+            
+        }
+        
+        
+        while(list2!=null){
+             sum=list2.data+carry;
+            res=sum%10;
+            carry=sum/10;
+            Node newnode=new Node(res);
+            if(list2==secondrev){
+                head=newnode;
+                prev=newnode;
+            
+            }
+            
+            else{
+                prev.next=newnode;
+                prev=newnode;
+            }
+            
+            list2=list2.next;
+        
+             
+        }
+        
+        if(carry!=0){
+            Node newnode=new Node(carry);
+            prev.next=newnode;
+            prev=newnode;
+        }
+        
+        return reverselist(head);
+        
+    }
+}
+
+
+Delete without head pointer
+====================================
+
+class Solution
+{
+    void deleteNode(Node del)
+    {
+         // Your code here
+         del.data=del.next.data;
+         del.next=del.next.next;
+    }
+}
+
+
+
+
+
+
+
+Queue using stack
+====================================
+
+class StackQueue
+{
+    Stack<Integer> s1 = new Stack<Integer>();
+    Stack<Integer> s2 = new Stack<Integer>();
+
+    //Function to push an element in queue by using 2 stacks.
+    void Push(int x)
+    {
+	   // Your code here
+	   s1.push(x);
+    }
+	
+    
+    //Function to pop an element from queue by using 2 stacks.
+    int Pop()
+    {
+	   // Your code here
+	   if(s1.isEmpty()){
+	      return -1; 
+	   }
+	   
+	   while(!s1.isEmpty()){
+	       s2.push(s1.pop());
+	       
+	   }
+	   int res=s2.pop();
+	   while(!s2.isEmpty()){
+	       s1.push(s2.pop());
+	   }
+	   
+	   return res;
+    }
+}
+
+
+
+
+
+Remove duplicates from unsorted linked list
+==================================================
+=======
+
+TC-O(n)
+SC-O(N)
+class Solution
+{
+    //Function to remove duplicates from unsorted linked list.
+    public Node removeDuplicates(Node head) 
+    {
+         // Your code here
+     HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
+     Node prev=null;
+     Node cur=head;
+     while(cur!=null){
+         if(map.containsKey(cur.data)){
+             prev.next=cur.next;
+             cur=cur.next;
+         }
+         else{
+             map.put(cur.data,1);
+             prev=cur;
+             cur=cur.next;
+         }
+     }
+     
+     return head;
+    }
+}
+
+
+
+Intersection of two linked list
+=============================================
+
+O(N+M)
+
+
+class Sol
+{
+   public static Node findIntersection(Node head1, Node head2)
+    {
+        // code here.
+        Node l1=head1;
+        Node l2=head2;
+        Node head=null,prev=null;
+        
+       while(l1!=null && l2!=null){
+           if(l1.data==l2.data){
+               Node newnode=new Node(l1.data);
+               if(head==null){
+                   head=newnode;
+                   prev=newnode;
+               }
+               else{
+                   prev.next=newnode;
+                   prev=newnode;
+               }
+               
+               l1=l1.next;
+               l2=l2.next;
+           }
+           
+           else{
+               if(l1.data<l2.data){
+                   l1=l1.next;
+                   
+               }
+               else{
+                   l2=l2.next;
+               }
+           }
+       }
+        
+        return head;
+        
+        
+        
+    }
+}
+
+
+
+Reverse a string using stack
+===========================================
+
+O(N)
+
+class Solution {
+    Stack<Character> s=new Stack<Character>();
+    
+
+    
+    public String reverse(String S){
+        //code here
+       // Stack<Integer> s=new Stack<Integer>();
+        for(int i=0;i<S.length();i++){
+            char x=S.charAt(i);
+           s.push(x);
+        }
+        String X="";
+        
+        while(!s.isEmpty()){
+            X+=s.pop();
+        }
+        
+        return X;
+    }
+
+}
+
+
+
+Longest valid parenthesis
+=============================================
+
+O(N)
+class Solution {
+    static int findMaxLen(String S) {
+        // code here
+        Stack<Integer> st=new Stack<Integer>();
+        int max=0;
+        int res=0;
+        
+        st.push(-1);
+        for(int i=0;i<S.length();i++){
+            if(S.charAt(i)=='('){
+                st.push(i);
+            }
+            else{
+                st.pop();
+                if(st.isEmpty()){
+                   st.push(i); 
+                }
+                else{
+                max=i-st.peek();
+                res=Math.max(max,res);
+            }
+            
+        }
+       
+        }
+        
+        return res;
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+***********************************************IMPORTANT**********************************
+
+
+Given a linked list sort it with 0's,1's,2's
+
+class Solution
+{
+    //Function to sort a linked list of 0s, 1s and 2s.
+    static Node segregate(Node head)
+    {
+        // add your code here
+        Node temp=head;
+        Node last=head;
+        Node prev=null;
+        int start=0;
+        int end=0;
+        
+        while(last.next!=null){
+            last=last.next;
+            end++;
+        }
+        
+        while(start<=end){
+            if(temp.data==2){
+                if(head==temp){
+                    head=head.next;
+                    last.next=temp;
+                    temp.next=null;
+                    last=temp;
+                    temp=head;
+                }
+                else{
+                    prev.next=temp.next;
+                    last.next=temp;
+                    temp.next=null;
+                    last=temp;
+                    temp=prev.next;
+
+                }
+            }
+            
+            else{
+                if(temp.data==1){
+                    prev=temp;
+                    temp=temp.next;
+                }
+                else{
+                  
+                        if(temp==head){
+                            prev=temp;
+                            temp=temp.next;
+                        }
+                        else{
+                            prev.next=temp.next;
+                            temp.next=head;
+                            head=temp;
+                            temp=prev.next;
+                        }
+                    
+                }
+            }
+            
+            start++;
+        }
+     return head;   
+        
+    }
+}
+
+
+Stack using two queue
+=====================================================
+
+
+
+class Queues
+{
+    Queue<Integer> q1 = new LinkedList<Integer>();
+    Queue<Integer> q2 = new LinkedList<Integer>();
+    
+    //Function to push an element into stack using two queues.
+    void push(int a)
+    {
+	    // Your code here	
+	    q1.add(a);
+	    while(!q2.isEmpty()){
+	        q1.add(q2.remove());
+	        
+	    }
+	    while(!q1.isEmpty()){
+	        q2.add(q1.remove());
+	    }
+    }
+    
+    //Function to pop an element from stack using two queues. 
+    int pop()
+    {
+	    // Your code here
+	   if(!q2.isEmpty()){ 
+	  return  q2.remove();
+    }
+    
+    else{
+        return -1;
+    }
+    }
+	
+}
+
+
+Add 1 to a linked list
+=======================================
+Brute force approach
+======================
+
+TC-O(N)
+SC-O(N)
+
+
+class Solution
+{
+    
+    public static Node reverselist(Node curr){
+        if(curr==null || curr.next==null){
+            return curr;
+        }
+           Node prev=null;
+        
+           // Node prev=null;
+            while(curr!=null){
+                Node next=curr.next;
+                curr.next=prev;
+                prev=curr;
+                curr=next;
+            }
+        
+        
+        return prev;
+        
+         
+    }
+    
+    
+    public static Node addOne(Node head) 
+    { 
+        //code here.
+        Node temp=null;
+        Node head1=null;
+        Node rev=reverselist(head);
+        int sum=0;
+        int carry=0;
+        int res=0;
+        sum=rev.data+1+carry;
+        res=sum%10;
+        carry=sum/10;
+        Node newnode=new Node(res);
+        if(head1==null){
+            head1=newnode;
+            temp=newnode;
+        }
+        else{
+            temp.next=newnode;
+            temp=newnode;
+        }
+        rev=rev.next;
+     while(rev!=null){
+          if(carry!=0){
+             sum=rev.data+carry;
+             res=sum%10;
+             carry=sum/10;
+             newnode=new Node(res);
+             temp.next=newnode;
+             temp=newnode;
+        }
+        else{
+            sum=rev.data+carry;
+            res=sum%10;
+            carry=sum/10;
+            newnode=new Node(res);
+            temp.next=newnode;
+            temp=newnode;
+        }
+        rev=rev.next;
+    }
+    
+    if(carry!=0){
+        newnode=new Node(1);
+        temp.next=newnode;
+        temp=newnode;
+    }
+    return reverselist(head1);
+}
+}
+
+
+-----------------------------------------------------------------------------------
+
+Optimised solution
+=========================
+
+O(N)
+O(1)
+
+class Solution
+{
+    
+    public static Node reverselist(Node curr){
+        if(curr==null || curr.next==null){
+            return curr;
+        }
+           Node prev=null;
+        
+           // Node prev=null;
+            while(curr!=null){
+                Node next=curr.next;
+                curr.next=prev;
+                prev=curr;
+                curr=next;
+            }
+        
+        
+        return prev;
+        
+         
+    }
+    
+    
+    public static Node addOne(Node head) 
+    { 
+        //code here.
+    
+      Node head1=reverselist(head);
+      Node rev=head1;
+      while(rev!=null){
+          
+          if(rev.next==null && rev.data==9){
+              rev.data=0;
+              Node newnode=new Node(1);
+              rev.next=newnode;
+              rev=newnode;
+              
+              rev=rev.next;
+          }
+          
+          else{
+              if(rev.data==9){
+                  rev.data=0;
+                  rev=rev.next;
+              }
+              else{
+                  rev.data=rev.data+1;
+                  rev=rev.next;
+                  break;
+              }
+          }
+          
+          
+          
+      }
+      return reverselist(head1);
+}
+}
+
+
+

@@ -1,0 +1,960 @@
+Maximum path sum 
+==============================
+
+
+class Solution
+{
+    //Function to return maximum path sum from any node in a tree.
+    int maxi=Integer.MIN_VALUE; 
+    
+    int func(Node node){
+        if(node==null){
+            return 0;
+        }
+        
+        
+        int lh=func(node.left);
+        int rh=func(node.right);
+        maxi=Math.max(maxi,node.data+lh+rh);
+        
+        return Math.max(0,node.data+Math.max(lh,rh));
+    }
+    
+    int findMaxSum(Node node)
+    {
+        //your code goes here
+        
+        func(node);
+        
+        return maxi;
+    }
+}
+
+
+
+
+
+Determine two trees are identical or not
+=================================================
+
+
+
+class Solution
+{
+    //Function to check if two trees are identical.
+	boolean isIdentical(Node root1, Node root2)
+	{
+	    // Code Here
+	    
+	    
+	    
+	    
+	    
+	    if(root1==null && root2==null){
+	        return true;
+	    }
+	    
+	    if(root1==null || root2==null){
+	        return false;
+	    }
+	    
+	    return (root1.data==root2.data && isIdentical(root1.left,root2.left) &&
+	    isIdentical(root1.right,root2.right));
+	   
+	}
+	
+}
+
+
+
+
+
+
+
+BOUNDARY TRAVERSALS
+=========================================
+
+class Solution
+{
+    
+    ArrayList<Integer> list=new ArrayList<>();
+    
+    void LeftBoundary(Node node,ArrayList<Integer>list){
+        if(node==null)
+        {
+            return;
+        }
+        
+        if(node.left!=null){
+            list.add(node.data);
+            LeftBoundary(node.left,list);
+        }
+        else if(node.right!=null){
+            list.add(node.data);
+            LeftBoundary(node.right,list);
+        }
+        
+        
+    }
+    
+    
+    
+    
+    void  Leaf(Node node,ArrayList<Integer>list){
+        
+        if(node ==null){
+            return;
+        }
+        
+        Leaf(node.left,list);
+        if(node.left==null && node.right==null){
+            list.add(node.data);
+        }
+        
+        Leaf(node.right,list);
+        
+    }
+    
+    
+    
+    void RightBoundary(Node node,ArrayList<Integer>list){
+        if(node == null){
+            return;
+        }
+        
+        if(node.right!=null){
+        
+        RightBoundary(node.right,list);
+        list.add(node.data);
+        }
+        
+        else if(node.left!=null){
+            RightBoundary(node.left,list);
+            list.add(node.data);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+	ArrayList <Integer> boundary(Node node)
+	{
+	    if(node ==null){
+	        return new ArrayList<>();
+	    }
+	    
+	    if(node.left==null && node.right==null){
+	        list.add(node.data);
+	        return list;
+	    }
+	    
+	    list.add(node.data);
+	    
+	    
+	    LeftBoundary(node.left,list);
+	    Leaf(node,list);
+	    RightBoundary(node.right,list);
+	    return list;
+	}
+}
+
+
+
+
+
+Vertical Traversal
+==================================
+
+
+
+class Solution
+{
+   
+    static class Info{
+        int dist;
+        Node root;
+        
+        
+        Info(int dist,Node root){
+           this.dist=dist;
+           this.root=root;
+        }
+    }
+    
+    
+    
+    
+    static ArrayList <Integer> verticalOrder(Node root)
+    {
+        ArrayList<Integer>ans=new ArrayList<>();
+        Map<Integer,ArrayList<Integer>>map=new TreeMap<>();
+        Queue<Info>q=new ArrayDeque<>();
+        
+        q.add(new Info(0,root));
+        while(!q.isEmpty()){
+            Info cur=q.remove();
+            
+            if(map.containsKey(cur.dist)){
+                map.get(cur.dist).add(cur.root.data);
+            }
+            else{
+                ArrayList<Integer>temp=new ArrayList<>();
+                temp.add(cur.root.data);
+                map.put(cur.dist,temp);
+            }
+            
+            
+            if(cur.root.left!=null){
+                q.add(new Info(cur.dist-1,cur.root.left));
+            }
+            
+            if(cur.root.right!=null){
+                q.add(new Info(cur.dist+1,cur.root.right));
+            }
+            
+        }
+        
+        
+        for (Map.Entry<Integer,ArrayList<Integer>>entry:map.entrySet()){
+            ans.addAll(entry.getValue());
+        }
+        
+        
+        
+        return ans;
+    }
+}
+
+
+
+
+
+
+
+TOP VIEW OF TREE
+===========================
+
+
+class Solution
+{
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    
+    static class Info{
+        int dist;
+        Node node;
+        
+        Info(int dist,Node node){
+            this.dist=dist;
+            this.node=node;
+        }
+        
+    }
+    
+    
+    static ArrayList<Integer> topView(Node root)
+    {
+        // add your code
+        
+        Map<Integer,Integer>map=new TreeMap<>();
+        Queue<Info>q=new ArrayDeque<>();
+        q.add(new Info(0,root));
+        while(!q.isEmpty()){
+            Info cur=q.remove();
+            if(!map.containsKey(cur.dist)){
+                map.put(cur.dist,cur.node.data);
+            }
+            
+            if(cur.node.left!=null){
+                q.add(new Info(cur.dist-1,cur.node.left));
+            }
+            
+              
+            if(cur.node.right!=null){
+                q.add(new Info(cur.dist+1,cur.node.right));
+            }
+            
+            
+            
+        }
+        
+        
+        ArrayList<Integer>ans=new ArrayList<>();
+        for(Map.Entry<Integer,Integer>entry:map.entrySet()){
+            ans.add(entry.getValue());
+        }
+        
+        
+        
+        
+        
+        
+        
+        return ans;
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+BOTTOM VIEW
+==================
+
+
+
+
+
+
+
+
+
+
+
+class Solution
+{
+    //Function to return a list containing the bottom view of the given tree.
+    static class Info{
+        int dist;
+        Node node;
+        
+        Info(int dist,Node node){
+        this.dist=dist;
+        this.node=node;
+        }
+    }
+    
+    
+    
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        Map<Integer,Integer>map=new TreeMap<>();
+        Queue<Info>q=new ArrayDeque<>();
+        
+        q.add(new Info(0,root));
+        while(!q.isEmpty()){
+            Info cur=q.remove();
+            map.put(cur.dist,cur.node.data);
+            if(cur.node.left!=null){
+                q.add(new Info(cur.dist-1,cur.node.left));
+            }
+            
+            if(cur.node.right!=null){
+                q.add(new Info(cur.dist+1,cur.node.right));
+            }
+            
+        }
+        
+        ArrayList<Integer>ans=new ArrayList<>();
+        for(Map.Entry<Integer,Integer> entry:map.entrySet()){
+            ans.add(entry.getValue());
+        }
+        
+     return ans;   
+        
+    }
+}
+
+
+
+Top View
+======================
+
+
+
+class Tree
+{
+    //Function to return list containing elements of left view of binary tree.
+    
+    public void left(Node root,int level,ArrayList<Integer>list){
+        
+        if(root==null){
+            return;
+        }
+        
+        
+        ///add only when its first in list.
+       if(list.size()==level){
+            list.add(root.data);
+        }
+        
+        left(root.left,level+1,list);
+        left(root.right,level+1,list);
+        
+        
+        
+    }
+    
+    
+    ArrayList<Integer> leftView(Node root)
+    {
+      // Your code here
+      
+      ArrayList<Integer> list=new ArrayList<>();
+      left(root,0,list);
+      
+      return list;
+      
+    }
+}
+
+
+
+
+
+
+IsSymmetric 
+=============================
+class GfG
+{
+    // return true/false denoting whether the tree is Symmetric or not
+    
+    public static boolean isSymmetricH(Node rootl,Node rootr){
+        if(rootl==null && rootr==null){
+            return true;
+        }
+        
+        if(rootl==null || rootr==null){
+            return false;
+        }
+        
+        
+        if(rootl.data!=rootr.data){
+            return false;
+        }
+        
+        return (isSymmetricH(rootl.left,rootr.right) && isSymmetricH(rootl.right,rootr.left));
+        
+        
+    }
+    
+    
+    
+    
+    public static boolean isSymmetric(Node root)
+    {
+        // add your code here;
+        if(root==null){
+            return true;
+        }
+        
+        return isSymmetricH(root.left,root.right);
+        
+        
+    }
+}
+
+
+
+
+ROOT TO LEAF WITH SPECIFIED SUM
+==================================
+class Solution
+{
+    
+    public static void findPath(Node root,int sum,int sum1, ArrayList<ArrayList<Integer>>ans, ArrayList<Integer>temp){
+           
+            if(root==null){
+                return;
+            }
+           
+            
+            temp.add(root.data);
+            sum1=sum1+root.data;
+            if(sum1==sum){
+                ans.add(new ArrayList<>(temp));
+                
+            }
+            
+            
+          
+        
+            
+            findPath(root.left,sum,sum1,ans,temp);
+           // temp.remove(temp.size()-1);
+            findPath(root.right,sum,sum1,ans,temp);
+            temp.remove(temp.size()-1);
+          
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    public static ArrayList<ArrayList<Integer>> printPaths(Node root, int sum)
+    {
+        //code here
+        
+        ArrayList<ArrayList<Integer>>ans=new ArrayList<>();
+        ArrayList<Integer>temp=new ArrayList<>();
+        int sum1=0;
+        
+        findPath(root,sum,sum1,ans,temp);
+        
+        return ans;
+        
+    }
+}
+
+
+CEIL IN BST
+======================
+
+class Tree {
+    // Function to return the ceil of given number in BST.
+    
+    int ceil=Integer.MAX_VALUE;
+    
+    int find(Node root,int key,int ceil){
+       
+        if(root==null){
+            return ceil;
+        }
+        
+         if(root.data==key){
+            
+            return key;
+        }
+        
+        
+        if(root.data>key ){
+           if(ceil>root.data){
+          
+                ceil=root.data;
+            
+        }
+        }
+        
+        
+        
+        if(key<root.data){
+           return find(root.left,key,ceil);
+        }
+        else{
+          return  find(root.right,key,ceil);
+        }
+        
+     
+    }
+    
+    
+    int findCeil(Node root, int key) {
+        if (root == null) return -1;
+        // Code here
+        
+        return find( root,key,ceil );
+    
+    }
+}
+
+
+Delete node from tree
+================================
+
+class Tree {
+    // Function to delete a node from BST.
+    
+    public static Node Inordersucc(Node root){
+        while(root.left!=null){
+            root=root.left;
+        }
+        
+        return root;
+    }
+    
+    public static Node deleteNode(Node root, int X) {
+        // code here.
+        if(root==null){
+            return null;
+        }
+        
+        if(root.data<X){
+            root.right=deleteNode(root.right,X);
+        }
+        else {
+            if (root.data>X){
+                root.left=deleteNode(root.left,X);
+            }
+            
+            else{
+                if(root.left==null && root.right==null){
+                    return null;
+                }
+                
+                
+                if(root.right==null){
+                    return root.left;
+                }
+                else{
+                    if(root.left==null)
+                       return root.right;
+                }
+                
+                
+                
+                Node inorder=Inordersucc(root.right);
+                root.data=inorder.data;
+                root.right=deleteNode(root.right,inorder.data);
+            }
+            
+            
+        }
+        
+        return root;
+        
+        
+    }
+}
+
+
+
+
+Check for BST
+===========================
+
+
+
+public class Solution
+{
+    //Function to check whether a Binary Tree is BST or not.
+    int flag=1;
+    Node prev=null;
+    void inorder(Node root){
+        if(root==null){
+            return;
+        }
+        
+        
+        inorder(root.left);
+        if(prev!=null && root.data<prev.data){
+            flag=0;
+            return;
+        }
+        
+        prev=root;
+        inorder(root.right);
+        
+       
+    }
+    
+    boolean isBST(Node root)
+    {
+        // code here
+       
+        
+        
+     
+        
+        inorder(root);
+        
+        if(flag==1){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+    
+    
+    boolean isHeap(Node tree) {
+        
+        
+        // code here
+        
+        if(tree==null){
+            return false;
+        }
+        
+        return isComplete(tree) && isHeapcheck(tree);
+        
+        
+        
+    }
+    
+    
+    boolean isComplete(Node tree){
+        Queue<Node>q=new ArrayDeque<>();
+       // boolean flag=false;
+         q.add(tree);
+        while(!q.isEmpty()){
+            Node x=q.remove();
+           if(x==null){
+              // flag=true;
+               return false;
+           }
+           
+           else{
+           q.add(x.left);
+           q.add(x.right);
+        
+           }
+        }
+        
+        return true;
+    }
+    
+    
+    
+    boolean isHeapcheck(Node tree){
+        Queue<Node>q=new ArrayDeque<>();
+        
+        if(tree==null){
+            return false;
+        }
+        
+        q.add(tree);
+        while(!q.isEmpty()){
+            Node x=q.remove();
+            if(x.left!=null){
+                if(x.data<x.left.data){
+                    return false;
+                }
+                
+                else{
+                    q.add(x.left);
+                }
+            }
+            
+            if(x.right!=null){
+                if(x.data<x.right.data){
+                    return false;
+                }
+                else{
+                    q.add(x.right);
+                }
+            }
+            
+            
+            
+        }
+        
+        return true;
+        
+        
+    }
+}
+
+
+
+Transform into Sum tree
+=============================
+
+class Solution{
+    public int Find(Node root){
+     if(root==null){
+             return 0;
+         }
+         
+         
+        int lh= Find(root.left);
+        int  rh=Find(root.right);
+        
+        int sum=root.data+lh+rh;
+        root.data=lh+rh;
+        return sum;
+    }
+    
+    
+    
+    public void toSumTree(Node root){
+         //add code here.
+        Find(root);
+    }
+}
+
+
+
+
+
+LOWEST  COMMON ANCESTOR
+===========================
+
+
+
+class BST
+{   
+    //Function to find the lowest common ancestor in a BST. 
+
+    
+    
+	Node LCA(Node root, int n1, int n2)
+	{
+        // code here.   
+        
+        if(root==null|| root.data==n1||root.data==n2){
+            return root;
+        }
+        
+        
+        Node l=LCA(root.left,n1,n2);
+        Node r=LCA(root.right,n1,n2);
+        
+        if(l!=null && r!=null){
+            return root;
+        }
+        if(l==null){
+            return r;
+        }
+        else{
+        
+        
+            return l;
+        
+        
+        }
+        
+        
+
+    
+      
+    }
+    
+}
+
+
+
+Min time to burn a treee
+==================================
+
+class Solution
+{
+    /*class Node {
+    	int data;
+    	Node left;
+    	Node right;
+    
+    	Node(int data) {
+    		this.data = data;
+    		left = null;
+    		right = null;
+    	}
+    }*/
+    
+    
+   
+    
+    public static int createtimerequired(Node target_needed,HashMap<Node,Node>map){
+        
+        Queue<Pair> q=new LinkedList<>();
+        HashMap<Node,Integer> vis=new HashMap<>();
+        q.add(new Pair(target_needed,0));
+         vis.put(target_needed,1);
+        int distance=0;
+        while(!q.isEmpty()){
+            int size=q.size();
+            for(int i=0;i<size;i++)
+                {
+                    
+                Node value=q.peek().val;
+               
+                distance=q.peek().dist;
+                q.remove();
+               if(value.left!=null && vis.get(value.left)==null){
+                   q.add(new Pair(value.left,distance+1));
+                       vis.put(value.left,1);
+               }
+               
+               if(value.right!=null  && vis.get(value.right)==null){
+                   q.add(new Pair(value.right,distance+1));
+                       vis.put(value.right,1);
+                   
+               }
+                
+            if(map.containsKey(value) && vis.get(map.get(value))==null){
+                q.add(new Pair(map.get(value),distance+1));
+                vis.put(map.get(value),1);
+            }
+                }
+        }
+        
+        return distance;
+        
+    }
+    
+    public static Node createMap(HashMap<Node,Node>map,Node root, int target){
+        Queue<Node>q=new LinkedList<>();
+        q.add(root);
+        Node res=null;
+        while(!q.isEmpty()){
+            int sz=q.size();
+            for(int i=0;i<sz;i++){
+                 Node x=q.remove();
+                 if(x.data==target){
+                     res=x;
+                 }
+                 if(x.left!=null){
+                     q.add(x.left);
+                     map.put(x.left,x);
+                 }
+                 
+                 if(x.right!=null)
+                {
+                    q.add(x.right);
+                    map.put(x.right,x);
+                }
+            }
+        }
+        
+        return res;
+    }
+    
+    public static int minTime(Node root, int target) 
+    {
+        // Your code goes here
+       
+        HashMap<Node,Node>map=new HashMap<Node,Node>();
+        Node target_needed=createMap(map,root,target);
+        
+        return createtimerequired(target_needed,map);
+    }
+}
+
+
+ class Pair{
+        Node val;
+        int dist;
+        
+         Pair(Node val, int dist){
+            this.val=val;
+            this.dist=dist;
+        }
+    }
+
+

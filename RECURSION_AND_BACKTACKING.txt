@@ -1,0 +1,104 @@
+combination sum 2
+=======================
+
+
+
+
+Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
+
+Each number in candidates may only be used once in the combination.
+
+
+Note:this wont give me a good solution because here we will be picking all the values and putting it in hashset.
+Better appoach will be to ignore the duplicates and take only one combination.
+
+class Solution {
+    
+    public void func(int[] can,int target,int i,Set<List<Integer>>res,List<Integer>temp){
+        
+        if(i<can.length){
+            if(target==0){
+                res.add(new ArrayList<>(temp));
+                return;
+            }
+        }
+        
+        
+        if(i==can.length){
+            if(target==0){
+                res.add(new ArrayList<>(temp));
+                
+            }
+            
+            return;
+        }
+        
+        
+        if(can[i]<=target){
+            temp.add(can[i]);
+            func(can,target-can[i],i+1,res,temp);
+            temp.remove(temp.size()-1);
+        }
+            func(can,target,i+1,res,temp);
+        }
+    
+ 
+    
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Set<List<Integer>>res=new HashSet<>();
+        List<Integer>temp=new ArrayList<>();
+        Arrays.sort(candidates);
+        
+        func(candidates,target,0,res,temp);
+        
+         List<List<Integer>> ans=new ArrayList<>();
+        for(List a :res){
+            ans.add(a);
+        }
+        
+        return ans;
+    }
+}
+
+
+
+
+
+Permutation with spaces
+===================================
+
+
+
+class Solution{
+    
+    ArrayList<String> arr=new ArrayList<>();
+    
+    void stringpermut(String S,String out,int i){
+        if(i==S.length()-1){
+            out=out+S.charAt(i);
+            arr.add(out);
+            return;
+        }
+        
+        
+        stringpermut(S,out+S.charAt(i)+" ",i+1);
+        stringpermut(S,out+S.charAt(i),i+1);
+    }
+    
+    ArrayList<String> permutation(String S){
+
+        
+        if(S.length()==0){
+            arr.add(S);
+            return arr;
+        }
+        
+        
+        String out="";
+        int i=0;
+        stringpermut(S,out,i);
+        
+        
+    return arr;    
+    }
+
